@@ -5,6 +5,7 @@ import com.example.k5_iot_springboot.dto.C_Book.BookResponseDto;
 import com.example.k5_iot_springboot.dto.C_Book.BookUpdateRequestDto;
 import com.example.k5_iot_springboot.dto.ResponseDto;
 import com.example.k5_iot_springboot.entity.C_Book;
+import com.example.k5_iot_springboot.entity.C_Category;
 import com.example.k5_iot_springboot.repository.C_BookRepository;
 import com.example.k5_iot_springboot.service.C_BookService;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,8 @@ public class C_BookServiceImpl implements C_BookService {
     @Override
     public ResponseDto<BookResponseDto> createBook(BookCreateRequestDto dto) {
         try {
-
             C_Book newBook = new C_Book(
-                null, dto.getWriter(), dto.getTitle(), dto.getContent(), dto.getCategory()
+                    null, dto.getWriter(), dto.getTitle(), dto.getContent(), dto.getCategory()
             );
 
             C_Book savedBook = bookRepository.save(newBook);
@@ -50,11 +50,10 @@ public class C_BookServiceImpl implements C_BookService {
     @Override
     public ResponseDto<BookResponseDto> getBookById(Long id) {
         try {
+            C_Book book = bookRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 id의 책을 찾을 수 없습니다: " + id));
 
-           C_Book book = bookRepository.findById(id)
-                   .orElseThrow(() -> new IllegalArgumentException("해당 id의 책을 찾을 수 없습니다: " + id));
-
-           return ResponseDto.setSuccess("SUCCESS", toResponse(book));
+            return ResponseDto.setSuccess("SUCCESS", toResponse(book));
 
         } catch (Exception e) {
             return ResponseDto.setFailed("책 조회 중 문제가 발생하였습니다: " + e.getMessage());
@@ -64,7 +63,6 @@ public class C_BookServiceImpl implements C_BookService {
     @Override
     public ResponseDto<BookResponseDto> updateBook(Long id, BookUpdateRequestDto dto) {
         try {
-
             C_Book book = bookRepository.findById(id)
                     .orElseThrow(() -> new IllegalArgumentException("해당 id의 책을 찾을 수 없습니다: " + id));
 
@@ -82,7 +80,6 @@ public class C_BookServiceImpl implements C_BookService {
     @Override
     public ResponseDto<Void> deleteBook(Long id) {
         try {
-
             C_Book book = bookRepository.findById(id)
                     .orElseThrow(() -> new IllegalArgumentException("해당 id의 책을 찾을 수 없습니다: " + id));
 
@@ -90,8 +87,50 @@ public class C_BookServiceImpl implements C_BookService {
             return ResponseDto.setSuccess("SUCCESS", null);
 
         } catch (Exception e) {
-            return ResponseDto.setFailed("책 삭제 중 문제가 발생하였습니다: " + e.getMessage());
+            return ResponseDto.setFailed("책 삭제 중 문제가 발생하였습니다.");
         }
+    }
+
+    @Override
+    public ResponseDto<List<BookResponseDto>> getBooksByTitleContaining(String keyword) {
+        List<BookResponseDto> data = null;
+
+        if (keyword == null || keyword.isEmpty()) {
+            return ResponseDto.setFailed("검색 키워드를 입력해주세요.");
+        }
+
+        List<C_Book> found = bookRepository.findByTitleContaining(keyword);
+
+        if (found.isEmpty()) {
+            return ResponseDto.setFailed("검색결과가 없습니다.");
+        }
+
+        data = found.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+
+        return ResponseDto.setSuccess("SUCCESS", data) ;
+    }
+
+    @Override
+    public ResponseDto<List<BookResponseDto>> getBooksByCategory(C_Category category) {
+        List<BookResponseDto> data = null;
+
+        if (category == null) {
+            return ResponseDto.setFailed("카테고리를 선택해주세요.");
+        }
+
+        List<C_Book> found = bookRepository.findByCategory(category);
+
+        if (found.isEmpty()) {
+            return ResponseDto.setFailed("검색결과가 없습니다.");
+        }
+
+        data = found.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+
+        return ResponseDto.setSuccess("SUCCESS", data) ;
     }
 
     // 유틸 메서드 (Entity >> Response Dto)
@@ -101,7 +140,6 @@ public class C_BookServiceImpl implements C_BookService {
                 entity.getTitle(),
                 entity.getCategory()
         );
-
         return dto;
     }
 
