@@ -57,6 +57,8 @@ package com.example.k5_iot_springboot.이론;
 
     8) @Positive, @PositiveOrZero, @Negative, @NegativeOrZero
         - 양수, 음수만 허용 (0포함 여부 선택 가능)
+
+    9) @
  */
 
 public class Q_Validation {
