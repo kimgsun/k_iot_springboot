@@ -52,5 +52,5 @@ public class D_Comment {
     public void changeContent(String content) {
         this.content = content;
     }
-    
+
 }
