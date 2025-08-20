@@ -6,6 +6,7 @@ import com.example.k5_iot_springboot.entity.D_Post;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,7 @@ import java.util.Objects;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 // : JSON 변환 시 null인 필드는 응답에서 제외됨
 //      >> 불필요한 null 값을 응답에 포함시키지 X
-public record PostDetailResponseDto (
+public record PostDetailResponseDto(
         Long id,
         String title,
         String content,

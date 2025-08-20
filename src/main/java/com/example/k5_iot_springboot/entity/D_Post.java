@@ -14,12 +14,13 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 // access = AccessLevel.PROTECTED
-// JPA 프록시 생성을 위한 기본 생성자
+// : JPA 프록시 생성을 위한 기본 생성자
 // : 외부에서 무분별하게 생성하지 못하도록 접근 수준을 PROTECTED로 제한
 @AllArgsConstructor
 @ToString(exclude = "comments")
 // exclude = "comments"
 // : 해당 속성값의 필드를 제외하고 ToString 메서드 내에서 필드값 출력
+@Builder
 public class D_Post {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,7 +45,7 @@ public class D_Post {
     // >> 해당 어노테이션 내에서 세부 옵션을 지정
     @OneToMany(
             mappedBy = "post",
-            // : 관계의 주인은 D_Comment.post 필드임을 지정 (댓글이 게시글을 지정해서 들어감)
+            // : 관계의 주인은 D_Comment.post 필드임을 지정
             // : Post 내부에서는 읽기 전용 매핑, FK는 D_Comment과 연결된 테이블이 가짐
             cascade = CascadeType.ALL,
             // : 부모(D_Post)에 대한 persist/merge/remove 등이 자식(D_Comment)로 전이
@@ -56,7 +57,7 @@ public class D_Post {
             // - 댓글이 필요할 때만 실제 SELECT를 수행하여 불필요한 로딩을 방지
     )
     private List<D_Comment> comments = new ArrayList<>();
-    // - 1 : N 관계 시 컬렉션은 NPE(NullPointerException) 방지를 위해 즉시 초기화
+    // - 1 : N 관계 시 컬렉션은 NPE 방지를 위해 즉시 초기화
     // - JPA가 내부적으로 컬렉션 프록시로 교체 가능
     // cf) 프록시 (중개자)
 
@@ -78,23 +79,23 @@ public class D_Post {
 
     // === 양방향 연관관계 편의 메서드(중복 방지 포함) === //
     /*
-        연관 관계 메서드
-        : Comment를 Post에 추가/삭제할 때 사용
-        - comments 리스트에 추가/삭제
-            >> 해당 Comment의 post 필드에 현재 Post 객체를 설정
-        - 해당 설정을 하지 않으면, JPA의 영속성 컨텍스트가 양방향 관계를 완전히 이해하지 못함!
-
-        cf) 영속성 컨텍스트
-            : JPA에서 엔티티 객체를 연구, 저장하는 환경을 의미
-            - 엔티티 매니저에 의해 관리, save(), remove(), find()와 같은 작업을 수행
-            - 영속성 컨텍스트에 저장된 엔티티는 1차 캐시에 보관
-                >> 트랜잭션이 끝날 때 실제 DB에 반영
-
-        cf) 양방향 관계
-            : 두 엔티티가 서로 참조하는 관계를 의미
-            - Post가 여러 개의 Comment를 가짐 (@OneToMany)
-            - Comment가 하나의 Post에 속함 (@ManyToOne)
-     */
+     * 연관 관계 메서드
+     * : Comment를 Post에 추가/삭제할 때 사용
+     * - comments 리스트에 추가/삭제
+     *   >> 해당 Comment의 post 필드에 현재 Post 객체를 설정
+     * - 해당 설정을 하지 않으면, JPA의 영속성 컨텍스트가 양방향 관계를 완전히 이해하지 못함!
+     *
+     * cf) 영속성 컨텍스트
+     *   : JPA에서 엔티티 객체를 연구, 저장하는 환경을 의미
+     *   - 엔티티 매니저에 의해 관리, save(), remove(), find()와 같은 작업을 수행
+     *   - 영속성 컨텍스트에 저장된 엔티티는 1차 캐시에 보관
+     *       >> 트랜잭션이 끝날 때 실제 DB에 반영
+     *
+     * cf) 양방향 관계
+     *   : 두 엔티티가 서로 참조하는 관계를 의미
+     *   - Post가 여러 개의 Comment를 가짐 (@OneToMany)
+     *   - Comment가 하나의 Post에 속함 (@ManyToOne)
+     * */
     public void addComment(D_Comment comment) {
         if (comment == null) return;
         if (!this.comments.contains(comment)) {

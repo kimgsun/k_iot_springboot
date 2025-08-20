@@ -4,6 +4,7 @@ import com.example.k5_iot_springboot.dto.D_Post.request.PostCreateRequestDto;
 import com.example.k5_iot_springboot.dto.D_Post.request.PostUpdateRequestDto;
 import com.example.k5_iot_springboot.dto.D_Post.response.PostDetailResponseDto;
 import com.example.k5_iot_springboot.dto.D_Post.response.PostListResponseDto;
+import com.example.k5_iot_springboot.dto.D_Post.response.PostWithCommentCountResponseDto;
 import com.example.k5_iot_springboot.dto.ResponseDto;
 import com.example.k5_iot_springboot.entity.D_Post;
 import com.example.k5_iot_springboot.repository.D_PostRepository;
@@ -21,10 +22,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Transactional(readOnly = true) // 기본 읽기 전용 (클래스 기본), 변경 메서드만 @Transactional
 public class D_PostServiceImpl implements D_PostService {
-    @Override
-    public ResponseDto<List<PostListResponseDto>> getPostByAuthor(String author) {
-        return null;
-    }
 
     private final D_PostRepository postRepository;
 
@@ -67,6 +64,7 @@ public class D_PostServiceImpl implements D_PostService {
     }
 
     @Override
+    @Transactional
     public ResponseDto<PostDetailResponseDto> updatePost(Long id, PostUpdateRequestDto dto) {
         Objects.requireNonNull(dto, "PostUpdateRequestDto must not be null");
         Long pid = requirePositiveId(id);
@@ -77,7 +75,7 @@ public class D_PostServiceImpl implements D_PostService {
         post.changeTitle(dto.title().trim());
         post.changeContent(dto.content().trim());
 
-        // Dirty Checkng으로 저장 (영속성 컨텍스트에 담긴 엔티티의 상태 변화를 자동 감지)
+        // Dirty Checking으로 저장 (영속성 컨텍스트에 담긴 엔티티의 상태 변화를 자동 감지)
 
         return ResponseDto.setSuccess("SUCCESS", PostDetailResponseDto.from(post));
     }
@@ -90,8 +88,43 @@ public class D_PostServiceImpl implements D_PostService {
 
         // orphanRemoval & cascade 설정으로 댓글은 자동 정리
         postRepository.delete(post);
-
         return ResponseDto.setSuccess("SUCCESS", null);
+    }
+
+    // 6) 특정 작성자의 모든 게시글
+    @Override
+    public ResponseDto<List<PostListResponseDto>> getPostsByAuthor(String author) {
+        List<D_Post> posts = postRepository.findByAuthorOrderByIdDesc(author);
+        List<PostListResponseDto> result = posts.stream()
+                .map(PostListResponseDto::from)
+                .toList();
+
+        return ResponseDto.setSuccess("SUCCESS", result);
+    }
+
+    // 7) 제목 키워드 검색
+    @Override
+    public ResponseDto<List<PostListResponseDto>> searchPostsByTitle(String keyword) {
+        List<D_Post> posts = postRepository.findByTitleContainingIgnoreCaseOrderByIdDesc(keyword);
+        List<PostListResponseDto> result = posts.stream()
+                .map(PostListResponseDto::from)
+                .toList();
+        return ResponseDto.setSuccess("SUCCESS", result);
+    }
+
+    // 8) 댓글이 가장 많은 상위 5개
+    @Override
+    public ResponseDto<List<PostWithCommentCountResponseDto>> getTop5PostsByComments() {
+        // var: 지역 변수 타입 추론 (Java 10+)
+        // 장점 - 반환 타입의 길이가 길 경우 간결한 작성
+        // 단점 - 타입을 숨겨버려 가독성 저하
+        var rows = postRepository.findTopPostsByCommentCount_Native(5);
+
+        List<PostWithCommentCountResponseDto> result = rows.stream()
+                .map(PostWithCommentCountResponseDto::from)
+                .toList();
+
+        return ResponseDto.setSuccess("SUCCESS", result);
     }
 
     // === 내부 유틸 메서드 === //

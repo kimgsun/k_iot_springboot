@@ -13,8 +13,7 @@ import org.hibernate.annotations.Comment;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = "post")
 public class D_Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -52,5 +51,4 @@ public class D_Comment {
     public void changeContent(String content) {
         this.content = content;
     }
-
 }
