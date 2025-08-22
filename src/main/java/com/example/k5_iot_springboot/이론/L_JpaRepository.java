@@ -29,13 +29,14 @@ package com.example.k5_iot_springboot.이론;
     cf) E: 엔티티 클래스 타입 - DB 테이블과 매핑되는 클래스
         Id: 엔티티의 기본키(PK)와 매핑되는 데이터
 
+
     2. 쿼리 메서드
     : 메서드 이름만으로 JPQL(또는 SQL) 쿼리를 자동 생성하는 기능
     - 별도 쿼리 작성 없이 이름 규칙에 따라 Spring Data JPA가 내부에서 해석하여 쿼리를 생성
 
     cf) JPQL
         : Java Persistence Query Language
-        - SQL을 기반으로 하는 객체 모델용 쿼리 언어
+        - SQL을 기반으로 한 객체 모델용 쿼리 언어
 
     1) 쿼리 메서드 기본 구조
     - 보통 find, read, get, query 같은 키워드로 시작(주로 find 사용)
@@ -64,7 +65,7 @@ package com.example.k5_iot_springboot.이론;
     cf) 조건이 복잡하거나 조인이 필요한 경우, 메서드 이름만으로 한계가 존재
         - 직접 쿼리를 작성 가능
         >> @Query
- */
+*/
 
 import java.util.List;
 
@@ -80,7 +81,7 @@ public interface L_JpaRepository {
     // 가격이 특정 값 이상인 상품 조회
     List<Product> findByPriceGreaterThan(int price);
 
-    // 이름에 특정 문자열이 포함된 삼품 조회
+    // 이름에 특정 문자열이 포함된 상품 조회
     List<Product> findByNameContaining(String keyword);
 
     // 카테고리와 가격 범위로 상품 조회
@@ -88,5 +89,4 @@ public interface L_JpaRepository {
 
     // 가격 내림차순 정렬
     List<Product> findByCategoryOrderByPriceDesc(String category);
-
 }

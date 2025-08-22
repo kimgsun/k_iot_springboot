@@ -12,6 +12,7 @@ import lombok.Setter;
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_book_writer_title", columnNames = {"writer", "title"})
         }
+
 )
 @Getter
 @Setter
@@ -30,7 +31,7 @@ public class C_Book {
     @Column(nullable = false, length = 100)
     private String title;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 500)
     private String content;
 
     // Enum 매핑: Converter 사용 (DB: VARCHAR) //

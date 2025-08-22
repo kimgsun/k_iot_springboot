@@ -3,6 +3,7 @@ package com.example.k5_iot_springboot.controller;
 import com.example.k5_iot_springboot.entity.A_Test;
 import com.example.k5_iot_springboot.service.A_TestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,9 +11,7 @@ import java.util.List;
 // @Controller
 // : 웹 요청을 처리하는 클래스 임을 명시 (반환되는 데이터 타입이 유연 - JSP, Thymeleaf 등)
 // @ResponseBody
-// : 데이터를 반환할 때 HTTP 응답 본문에 직접 출력 / 뷰 리졸버를 거치지 않음
-//          / 데이터 직렬화 수행 (JSON, XML 등)
-
+// : 데이터를 반환할 때 HTTP 응답 본문에 직접 출력 / 뷰 리졸버를 거치지 않음 / 데이터 직렬화 수행 (JSON, XML 등)
 @RestController
 // : @Controller + @ResponseBody
 @RequestMapping("/test")

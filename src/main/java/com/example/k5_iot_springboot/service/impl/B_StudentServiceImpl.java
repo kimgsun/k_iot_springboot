@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 public class B_StudentServiceImpl implements B_StudentService {
     private final B_StudentRepository studentRepository; // 생성자 주입
 
-    // ===  조회 계열(GET)은 Transactional의 readOnly 옵션을 사용 ===
+    // === 조회 계열(GET)은 Transactional의 readOnly 옵션을 사용 === //
     @Override
     @Transactional(readOnly = true)
     public List<StudentResponseDto> getAllStudents() {
         return studentRepository.findAll()
                 .stream()
-                // .map(student -> toDto(student))
+//                .map(student -> toDto(student))
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
@@ -35,8 +35,8 @@ public class B_StudentServiceImpl implements B_StudentService {
     @Transactional(readOnly = true)
     public StudentResponseDto getStudentById(Long id) {
         B_Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 학생이 없습니다: " + id));
-
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 학생이 없습니다: " + id));
         return toDto(student);
     }
 
@@ -68,7 +68,8 @@ public class B_StudentServiceImpl implements B_StudentService {
     @Transactional
     public StudentResponseDto updateStudent(Long id, StudentUpdateRequestDto requestDto) {
         B_Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 학생이 없습니다: " + id));
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 학생이 없습니다: " + id));
 
         student.setName(requestDto.getName());
 
@@ -87,7 +88,7 @@ public class B_StudentServiceImpl implements B_StudentService {
         // 3) 데이터 변경 감지 시: UPDATE SQL을 만들어 실행
         // 4) 자동으로 SQL 쿼리 실행
 
-        // cf) CREATE는 새로 만드는 경우(식별자) - save 명시 필요
+        // cf) CREATE는 새로 만드는 경우(식별자) - save 명시 필요!
 
         return toDto(student);
     }
@@ -96,12 +97,13 @@ public class B_StudentServiceImpl implements B_StudentService {
     @Transactional
     public void deleteStudent(Long id) {
         B_Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 학생이 없습니다: " + id));
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 id의 학생이 없습니다: " + id));
 
         studentRepository.delete(student);
     }
 
-    // === Entity >>> Dto 매핑 유틸 메서드 ===
+    // === Entity >>> DTO 매핑 유틸 메서드 ===
     private StudentResponseDto toDto(B_Student student) {
 //        return new StudentResponseDto(
 //                student.getId(),

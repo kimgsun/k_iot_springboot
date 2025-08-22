@@ -7,7 +7,7 @@ package com.example.k5_iot_springboot.이론;
     - 웹 페이지, 이미지, 파일, 서비스 "엔드 포인트"
 
     2. URL (Uniform Resource Locator)
-    : 그 자원이 어떻게/어디로 가서 접근하는 지 알려주는 주소 + 방법 체계
+    : 그 자원이 어떻게/어디로 가서 접근하는지 알려주는 주소 + 방법 체계
     > 자원의 위치를 나타내는 문자열, 웹 주소를 의미
 
     cf) URL은 URI의 한 종류 (URI가 더 포괄적 개념)
@@ -21,6 +21,7 @@ package com.example.k5_iot_springboot.이론;
 
     === @RequestMapping은 URI 자원을 명시 ===
     : 해당 요청으로 어떠한 자원에 접근할 것인지 작성
+
 
     === HTTP 메서드와 @RequestMapping ===
     @RequestMapping("/test") - 클래스와의 연결
@@ -38,7 +39,7 @@ package com.example.k5_iot_springboot.이론;
     @PutMapping
 
     @DeleteMapping("/{id}")
- */
+*/
 
 public class J_URI {
 }

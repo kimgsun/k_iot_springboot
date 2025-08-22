@@ -4,7 +4,7 @@ package com.example.k5_iot_springboot.이론;
     == 시간+날짜 데이터 처리 ==
     1) UTC(Coordinated Universal Time, 협정 세계시)
         - 전 세계 표준 시간, 국제적으로 사용되는 기준 시간
-        - 각 나라가 사용하는 현지 시간은 모두 UTC를 기준으로 +/- 시차를 적용해 계산
+        - 각 나라가 사용하는 현지 시간은 모두 UTC를 기준을 +/- 시차를 적용해 계산
         - 현지 시간을 기준으로 활용하기엔 가독성이 떨어짐
     2) KST(Korea Standard Time, 한국 표준시)
         - 대한민국에서 사용하는 공식 시간대
@@ -32,7 +32,6 @@ package com.example.k5_iot_springboot.이론;
         > Java 8 날짜/시간 직렬화 - jackson 드라이버
             : Java 객체를 JSON 데이터로 변환(직렬화)하거나
                 , JSON 데이터를 Java 객체로 변환(역직렬화)하는 데 사용
- */
-
+*/
 public class R_Datetime {
 }

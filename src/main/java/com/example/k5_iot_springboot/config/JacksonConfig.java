@@ -6,10 +6,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/*
-    Jackson에 JavaTimeModule 등록 + 타임 스탬프(숫자) 대신 ISO-8601 문자열로 출력
-    : LocalDateTime 등의 직렬화/역직렬화가 자연스럽게 동작
- */
+/**
+ * Jackson에 JavaTimeModule 등록 + 타임 스탬프(숫자) 대신 ISO-8601 문자열로 출력
+ * : LocalDateTime 등의 직렬화/역직렬화가 자연스럽게 동작
+ * */
 @Configuration
 public class JacksonConfig {
     @Bean

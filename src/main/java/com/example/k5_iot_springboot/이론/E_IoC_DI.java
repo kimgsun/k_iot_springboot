@@ -13,7 +13,7 @@ package com.example.k5_iot_springboot.이론;
     : 클래스가 필요로 하는 객체(의존성, Dependency)를 외부에서 주입(Injection) 받아 사용하는 방식
     - 객체 간 결합도 감소, 유연성과 재사용성 증가 & 확장성, 유지보수성, 테스트 용이성 향상
     >> 생성자 주입(권장), 필드(Field) 주입, 세터(Setter) 주입
- */
+*/
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +42,7 @@ class BookStore1 {
 
         // >> Book1이 변경되면 BookStore1도 같이 수정 (결합도 높다)
         //      : 확장성, 유지보수성, 테스트에 어려움
-        this.book = new Book1("Spring Book 기초");
+        this.book = new Book1("Spring Boot 기초");
     }
 
     public void displayBook() {
@@ -102,7 +102,7 @@ class BookStore2 {
 
 // @Configuration
 class ExampleConfig {
-    // @Bean
+//    @Bean
     public void ExampleBean() {
         System.out.println("예시 빈 등록");
     }
@@ -123,7 +123,6 @@ class ExampleConfig {
 
     3) 세터 주입 방식
         - 불변성 약화, 객체가 불완전 상태로 생성될 가능성 존재
- */
-
+*/
 public class E_IoC_DI {
 }

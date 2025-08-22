@@ -28,7 +28,7 @@ public class C_BookController {
     @PostMapping
     public ResponseEntity<ResponseDto<BookResponseDto>> createBook(
             @RequestBody BookCreateRequestDto dto
-    ) {
+            ) {
         ResponseDto<BookResponseDto> result = bookService.createBook(dto);
         return ResponseEntity.ok(result);
 //        return ResponseEntity.created(location).body(result);
@@ -53,7 +53,7 @@ public class C_BookController {
     public ResponseEntity<ResponseDto<BookResponseDto>> updateBook(
             @PathVariable Long id,
             @RequestBody BookUpdateRequestDto dto
-    ) {
+            ) {
         ResponseDto<BookResponseDto> result = bookService.updateBook(id, dto);
         return ResponseEntity.ok(result);
     }
@@ -104,8 +104,13 @@ public class C_BookController {
     @GetMapping("/category/{category}") // "/category/ESSAY"
     public ResponseEntity<ResponseDto<List<BookResponseDto>>> getBooksByCategory(
             @PathVariable C_Category category
-    ) {
+            ) {
         ResponseDto<List<BookResponseDto>> books = bookService.getBooksByCategory(category);
+
+//        return books.getMessage().equals("SUCCESS")
+//                ? ResponseEntity.status(HttpStatus.OK).body(books)
+//                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDto.set(false, "에러", null));
+//
         return ResponseEntity
                 .status(books.getMessage().equals("SUCCESS") ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
                 .body(books);

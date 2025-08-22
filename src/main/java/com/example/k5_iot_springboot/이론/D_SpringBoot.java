@@ -17,10 +17,10 @@ package com.example.k5_iot_springboot.이론;
     3. 스프링 부트의 동작 구조
 
     [클라이언트] - [서블릿 컨테이너] - [Dispatcher Servlet]
-                                            |
-                            뷰 / 핸들러 매핑 / 핸들러 어댑터 / 뷰 리졸버
-                                                 |
-                                              컨트롤러
+                                          |
+                         뷰 / 핸들러 매핑 / 핸들러 어댑터 / 뷰 리졸버
+                                                |
+                                             컨트롤러
 
     1) 클라이언트 >> 서블릿 컨테이너 >> Dispatcher Servlet(DS)
         : 클라이언트에서 "요청"이 들어오면
@@ -33,14 +33,14 @@ package com.example.k5_iot_springboot.이론;
     3) DS >> 핸들러 어댑터
         : DS가 선택된 핸들러를 실행할 수 있는 어댑터를 찾아 핸들러 어댑터를 호출
         - 해당 어댑터는 실제 컨트롤러와 연결되어 컨트롤러의 메서드를 실행하고
-            , 실행 결과(모델 & 뷰 이름 등)를 DS에 반환
+                , 실행 결과(모델 & 뷰 이름 등)를 DS에 반환
         >> 어댑터
-            : 스프링은 컨트롤러 스타일이 달라도 공통 방식으로 호출할 수 있도록 어댑터가 중간에서 표준화를 이룸
+            : 스프링은 컨트롤러 스타일이 달라고 공통 방식으로 호출 할 수 있도록 어댑터가 중간에서 표준화
             (@Controller, @RestController 등)
 
     4) 핸들러 어댑터 >> 컨트롤러
         : 컨트롤러가 요청 파라미터를 받아 비즈니스 로직 호출, 모델 데이터 생성, 뷰 이름(String) 등을 반환
-        - @ResponseBody & @RestController 인 경우 뷰를 반환하지 않고, 바디(JSON 등)로 바로 전달
+        - @ResponseBody & @RestController 인 경우 뷰를 반환하지 않고 바디(JSON 등)로 바로 전달
             >> 뷰/뷰 리졸버 단계가 생략 가능
 
     5) DS >> 뷰 리졸버
@@ -50,7 +50,8 @@ package com.example.k5_iot_springboot.이론;
         : DS가 뷰 객체에 모델 데이터를 넘겨 렌더링을 수행
         (HTML 등이 서블릿 컨테이너를 통해 클라이언트에 응답으로 전송)
 
-    4. DispatcherServlet(디스패처 서브릿, dispatch 보내다)
+
+    4. DispatcherServlet(디스패처 서블릿, dispatch 보내다)
     : 스프링 부트의 핵심 서블릿
     - 클라이언트의 요청을 받아 "알맞은 핸들러(controller)"를 찾고 실행하며
         , 처리된 결과를 다시 클라이언트에게 반환
@@ -58,7 +59,6 @@ package com.example.k5_iot_springboot.이론;
     1) 클라이언트 요청 처리
         : 사용자가 웹에서 요청(GET, POST, PUT, DELETE)을 보냄
             - 서블릿 컨테이너(톰캣)가 DS로 요청 전달
-
     2) Handler(Controller) 조회
         : Handler Mapping을 통해 요청 URI에 맞는 "핸들러" 검색
         EX) /students >> StudentController 가 매핑
@@ -69,7 +69,7 @@ package com.example.k5_iot_springboot.이론;
     4) Handler(Controller) 실행
         : 어댑터가 찾은 핸들러 실행
         - 요청 처리와 결과를 어댑터로 반환
- */
+*/
 
 /*
     === 서블릿(Servlet) VS 스프링부트(SpringBoot) ===
@@ -88,8 +88,8 @@ package com.example.k5_iot_springboot.이론;
 
                 cf) POJO 메서드
                     : 클래스 내부에 정의된 메서드를 의미
-                    - 특정 프레임워크나 기술에 종속되지 않고, 순수하게 데이터와 로직을 캡슐화하는 객체를 의미
- */
+                    - 특정 프레임워크나 기술에 종속되지 않고 순수하게 데이터와 로직을 캡슐화하는 객체를 의미
+*/
 
 public class D_SpringBoot {
 }

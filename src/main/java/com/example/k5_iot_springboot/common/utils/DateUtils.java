@@ -3,11 +3,11 @@ package com.example.k5_iot_springboot.common.utils;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-/*
-    날짜/시간 변환 유틸
-    - 저장은 UTC(LocalDateTime, DB DATETIME(6))
-    - 노출은 KST 문자열 또는 ISO-8601 문자열로
- */
+/**
+ * 날짜/시간 변환 유틸
+ * - 저장은 UTC(LocalDateTime, DB DATETIME(6))
+ * - 노출은 KST 문자열 또는 ISO-8601 문자열로
+ * */
 public class DateUtils {
     // KST(Asia/Seoul) 타임존 상수
     private static final ZoneId ZONE_KST = ZoneId.of("Asia/Seoul");
@@ -29,7 +29,7 @@ public class DateUtils {
     }
 
     // DB >>> ISO-8601 문자열
-    // : 프론트에서 타임존이 필요한 경우 유용
+    // : 프론트에서 타임존이 필요이 필요한 경우 유용
     public static String toUtcString(LocalDateTime utcLocalDateTime) {
         if (utcLocalDateTime == null) return null;
         // UTC로 해석한 수, Offset을 명시(+00:00)하여 문자열 생성

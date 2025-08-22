@@ -92,4 +92,6 @@ CREATE TABLE IF NOT EXISTS `boards` (
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '게시글';
   
-  SELECT * FROM `boards`;
+SELECT * FROM `boards`;
+
+USE k5_iot_springboot;

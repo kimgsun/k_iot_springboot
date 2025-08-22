@@ -26,7 +26,7 @@ package com.example.k5_iot_springboot.이론;
     4. 요청과 응답의 구성
         1) 요청(Request)
             : 클라이언트가 서버에게 전달
-            - URL: 어디에 요청할 지
+            - URL: 어디에 요청할지
             - HTTP 메서드(Method): 어떤 종류의 요청인지
                 >> GET, POST, PUT, DELETE 등
             - 헤더(Header): 추가 정보 ('클라이언트 정보', '응답 데이터에 대한 형식' 등)
@@ -34,10 +34,9 @@ package com.example.k5_iot_springboot.이론;
 
         2) 응답(Response)
             : 서버가 클라이언트에게 전달
-            - 상태 코드(Status Code): '어떻게 되었는 지' (200 OK, 404 NOT FOUND 등)
+            - 상태 코드(Status Code): '어떻게 되었는지' (200 OK, 404 NOT FOUND 등)
             - 헤더(Header): 추가 정보 ('응답 데이터 형식' 등)
             - 바디(Body): 실제 내용 (HTML 파일, JSON 데이터 등)
- */
-
+*/
 public class A_HTTP01 {
 }

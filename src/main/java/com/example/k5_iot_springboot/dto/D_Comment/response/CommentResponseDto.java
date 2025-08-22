@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record CommentResponseDto (
-    Long id,
-    Long postId,
-    String content,
-    String commenter
+public record CommentResponseDto(
+        Long id,
+        Long postId,
+        String content,
+        String commenter
 ) {
     public static CommentResponseDto from(D_Comment comment) {
         if (comment == null) return null;

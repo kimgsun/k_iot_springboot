@@ -18,7 +18,7 @@ import java.util.List;
 //      : 주로 버저닝(/api/v1) + 복수형태의 명사(/students) 같이 사용
 
 @RestController // @Controller + @ResponseBody (RESTful 웹 서비스의 컨트롤러 임을 명시)
-@RequestMapping("/api/v1/students") // 컨트롤러의 공동 URL prefix (아래 메서드 경우는 모두 /students로 시작)
+@RequestMapping("/api/v1/students") // 컨트롤러의 공동 URL prefix (아래 메서드 경로는 모두 /students로 시작)
 @RequiredArgsConstructor
 public class B_StudentController {
     // 비즈니스 로직을 처리하는 service 객체 주입 (생성자 주입)
@@ -28,7 +28,7 @@ public class B_StudentController {
 
     // 1) 새로운 학생 등록(POST)
     // - 성공 201 Created + Location 헤더(/students/{id}) + 생성 데이터
-    // cf) 리소스 생성 성공은 201 Created가 표준
+    // cf) 리소스 생성 성공은 201 Created가 표준!
     @PostMapping
     public ResponseEntity<StudentResponseDto> createStudent(@RequestBody StudentCreateRequestDto requestDto
             , UriComponentsBuilder uriComponentsBuilder) {
@@ -39,7 +39,7 @@ public class B_StudentController {
         // - 리다이렉트 할 페이지의 URL을 나타냄
         // - 201 (Created), 3XX (redirection) 응답 상태와 주로 사용
         URI location = uriComponentsBuilder // 현재 HTTP 요청의 정보를 바탕으로 설정
-                .path("/students/{id}") // 현재 경로 + /{id}
+                .path("/{id}") // 현재 경로 + /{id}
                 .buildAndExpand(created.getId()) // 템플릿 변수 치환 - 동적 데이터 처리
                 .toUri();
 
