@@ -45,7 +45,7 @@ package com.example.k5_iot_springboot.이론;
         - "인증된" 사용자 정보 (아이디, 이메일 등)
     5. Authority(권한), ROLE(역할)
         - 역할에 따라 권한이 달라짐
-        >> 해당 요청(해당 URL)은 권한 ROLE_ADMIN 만 들어갈 수 있엄의 규칙을 정의하는 것
+        >> 해당 요청(해당 URL)은 권한 ROLE_ADMIN 만 들어갈 수 있음의 규칙을 정의하는 것
     6. SecurityContext
         : 현재 요청의 인증/권한 저장
         - 현재의 사용자 기록
