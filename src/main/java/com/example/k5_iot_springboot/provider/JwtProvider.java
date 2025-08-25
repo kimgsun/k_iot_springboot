@@ -15,7 +15,6 @@ package com.example.k5_iot_springboot.provider;
                 >> 환경 변수 설정 (jwt.secret / jwt.expiration)
  */
 
-import com.example.k5_iot_springboot.entity.base.BaseTimeEntity;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
