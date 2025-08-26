@@ -96,7 +96,7 @@ SELECT * FROM `boards`;
 
 USE k5_iot_springboot;
 
-# 0825 (
+# 0825 (G_User)
 CREATE TABLE IF NOT EXISTS `users` (
 	id BIGINT NOT NULL AUTO_INCREMENT,
     login_id VARCHAR(50) NOT NULL,
