@@ -81,7 +81,7 @@ public class G_AuthServiceImpl implements G_AuthService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toSet());
 
-        // 3) JWT 발금 (username=loginId, roles 포함)
+        // 3) JWT 발급 (username=loginId, roles 포함)
         String accessToken = jwtProvider.generateJwtToken(req.loginId(), roles);
 
         // 4) 만료 시각 추출하여 응답에 포함
