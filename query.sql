@@ -135,8 +135,29 @@ CREATE TABLE IF NOT EXISTS `user_roles` (
   COLLATE = utf8mb4_unicode_ci
   COMMENT = '사용자 권한';
   
-  # 샘플 데이터 #
-  INSERT INTO user_roles (user_id, role)
-  VALUES (1, "ADMIN");
+# 샘플 데이터 #
+INSERT INTO user_roles (user_id, role)
+VALUES (1, "ADMIN");
   
-  SELECT * FROM `user_roles`;
+SELECT * FROM `user_roles`;
+
+USE k5_iot_springboot;
+
+# 0828 (H_Article)
+-- 기사 테이블
+CREATE TABLE IF NOT EXISTS `articles` (
+	id BIGINT AUTO_INCREMENT,
+    title VARCHAR(200) NOT NULL,
+    content LONGTEXT NOT NULL,
+    author_id BIGINT NOT NULL,
+    created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_articles_author
+		FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_unicode_ci
+  COMMENT = '기사글';
+  
+SELECT * FROM `articles`;

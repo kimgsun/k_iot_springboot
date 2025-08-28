@@ -8,6 +8,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -89,7 +90,10 @@ public class GlobalExceptionHandler {
     }
 
     // === 403 Forbidden: 접근 거부 === //
-    @ExceptionHandler(AccessDeniedException.class)
+    // AccessDeniedException.class => 접근에 대한 제어
+    // AuthorizationDeniedException.class => 접근 권한에 대한 제어
+    // => 이게 없으면 에러를 500번대로 받아요! 저희는 접근권한 관련해서 에러 받아야하니까 400번대에서 받으려면 여기에 접근 권한 예외 넣어야합니다!
+    @ExceptionHandler({AccessDeniedException.class, AuthorizationDeniedException.class})
     public ResponseEntity<ResponseDto<Object>> handleAccessDenied(AccessDeniedException e) {
         log.warn("AccessDenied: {}", e.getMessage());
         return fail(ErrorCode.FORBIDDEN, null, null);
