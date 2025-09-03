@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 	CONSTRAINT chk_orders_os CHECK (order_status IN ('PENDING', 'APPROVED', 'CANCELLED')),
     INDEX idx_orders_user (user_id),
     INDEX idx_orders_status (order_status),
-    INDEX idx_orders_created_at (created_at)
+    INDEX idx_orders_created_at (created_at) -- 주로 범위로 검색
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
