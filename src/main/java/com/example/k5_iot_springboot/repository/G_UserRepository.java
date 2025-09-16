@@ -18,7 +18,7 @@ public interface G_UserRepository extends JpaRepository<G_User, Long> {
     // 해결 방법 1) 리포지토리에 fetch-join 쿼리 추가
     // : u.roles 컬렉션을 한 번에 가져오기 때문에 N+1 문제 방지
     @Query("""
-        SELECT u
+        SELECT u 
         FROM G_User u
             LEFT JOIN FETCH u.userRoles
         WHERE u.loginId = :loginId
@@ -34,9 +34,11 @@ public interface G_UserRepository extends JpaRepository<G_User, Long> {
     Optional<G_User> findWithRolesById(
             @NotNull(message = "userId는 필수입니다.")
             @Positive(message = "userId는 양수여야 합니다.")
-            Long id);
+            Long id
+    );
 
     boolean existsByLoginId(String loginId);
     boolean existsByEmail(String email);
     boolean existsByNickname(String nickname);
+
 }
