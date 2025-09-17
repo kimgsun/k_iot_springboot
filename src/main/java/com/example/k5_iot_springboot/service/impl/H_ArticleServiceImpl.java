@@ -76,7 +76,7 @@ public class H_ArticleServiceImpl implements H_ArticleService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER') or @authz.isArticleAuthor(#articleId, authentication)") // #이 없는 건 자동 캐치
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER') or @authz.isArticleAuthor(#articleId, authentication)")
     // Bean으로 등록된 AuthorizationChecker를 어노테이션화 한 기능
     // cf) PreAuthorize | PostAuthorize 내부의 기본 변수
     //      - authentication: 현재 인증 객체 (자동 캐치)
@@ -101,7 +101,7 @@ public class H_ArticleServiceImpl implements H_ArticleService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasAnyRole('ADMIN') or @authz.isArticleAuthor(#id, authentication)")
+    @PreAuthorize("hasRole('ADMIN') or @authz.isArticleAuthor(#id, authentication)")
     public ResponseDto<Void> deleteArticle(UserPrincipal principal, Long id) {
         if (id == null) throw new IllegalArgumentException("ARTICLE_ID_REQUIRED");
 
@@ -113,13 +113,13 @@ public class H_ArticleServiceImpl implements H_ArticleService {
         return ResponseDto.setSuccess("SUCCESS", null);
     }
 
-    /* 공통 유틸: 제목/내용 유효성 검사 */
+    /** 공통 유틸: 제목/내용 유효성 검사 */
     private void validateTitleAndContent(String title, String content) {
         if (!StringUtils.hasText(title)) {
             throw new IllegalArgumentException("TITLE_REQUIRED");
         }
         if (!StringUtils.hasText(content)) {
-            throw new IllegalArgumentException("TITLE_REQUIRED");
+            throw new IllegalArgumentException("CONTENT_REQUIRED");
         }
     }
 }

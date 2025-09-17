@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface I_OrderRepositoryCustom {
 
-    /* 유저/상태/기간 조건에 따른 주문 목록 조회 */
+    /** 유저/상태/기간 조건에 따른 주문 목록 조회 */
     List<I_Order> searchOrders(Long userId, OrderStatus status, LocalDateTime from, LocalDateTime to);
 }

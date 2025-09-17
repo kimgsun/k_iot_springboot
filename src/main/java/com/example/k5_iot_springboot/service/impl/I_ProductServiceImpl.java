@@ -42,9 +42,9 @@ public class I_ProductServiceImpl implements I_ProductService {
         I_Product saved = productRepository.save(product);
 
         stockRepository.save(
-                I_Stock.builder()
-                        .product(saved)
-                        .build()
+            I_Stock.builder()
+                    .product(saved)
+                    .build()
         );
 
         data = new ProductResponse.DetailResponse(saved.getId(), saved.getName(), saved.getPrice());
@@ -76,12 +76,10 @@ public class I_ProductServiceImpl implements I_ProductService {
             throw new IllegalArgumentException("변경된 데이터가 없습니다.");
         }
 
-        // === null 값에 대한 연산, 값 꺼내오기의 오류!! == //
+        // === null 값에 대한 연산, 값 꺼내오기의 오류!! ===
 //        if (product.getName().equals(req.name()) && product.getPrice() == req.price()) {
 //            throw new IllegalArgumentException("변경된 데이터가 없습니다.");
 //        }
-//        if (req.name() != null) product.setName(req.name());
-//        if (req.price() != null) product.setPrice(req.price());
 
         if (nameChanged) product.setName(req.name());
         if (priceChanged) product.setPrice(req.price());

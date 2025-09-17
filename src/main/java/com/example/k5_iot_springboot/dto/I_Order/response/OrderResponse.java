@@ -6,7 +6,7 @@ import java.util.List;
 
 public class OrderResponse {
     /** 주문 상세 응답 DTO */
-    public record Detail (
+    public record Detail(
             Long orderId,
             Long userId,
             OrderStatus status,
@@ -17,7 +17,7 @@ public class OrderResponse {
     ) {}
 
     /** 주문 항목 리스트 응답 DTO */
-    public record OrderItemList (
+    public record OrderItemList(
             Long productId,
             String productName,
             Integer price,

@@ -29,12 +29,12 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class G_AuthServiceImpl implements G_AuthService {
     private final G_UserRepository userRepository;
+    private final G_RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     // @Bean 메서드로 BCryptPasswordEncoder 객체를 리턴하면
     //      , 스프링 컨테이너에 등록될 때 PasswordEncoder 타입으로 인식 (주입 시 해당 타입으로 정의 권장)
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
-    private final G_RoleRepository roleRepository;
 
     @Override
     @Transactional
@@ -59,7 +59,7 @@ public class G_AuthServiceImpl implements G_AuthService {
                 .password(encoded)
                 .email(req.email())
                 .nickname(req.nickname())
-                // .gender(req.gender()) - null 허용
+//                .gender(req.gender()) - null 허용
                 .build();
 
         // 기본 권한 부여
@@ -73,7 +73,7 @@ public class G_AuthServiceImpl implements G_AuthService {
     @Override // 읽기 전용
     public ResponseDto<SignInResponse> signIn(SignInRequest req) {
 
-        // 스프링 시큐리티 표준 인증 흐름 (UserDetailsService + PasswordEncoder)
+        // 스프링 시큐리티 표준 인증 흐름 (UserDetailsService + PasswordEnoder)
         Authentication auth = authenticationManager.authenticate(
                 // 내부에서 DaoAuthenticationProvider가
                 //      , CustomUserDetailsService.loadUserByUsername(loginId) 호출

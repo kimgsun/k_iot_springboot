@@ -8,6 +8,5 @@ import jakarta.validation.Valid;
 
 public interface G_UserService {
     ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal);
-
     ResponseDto<UserProfileResponse.MyPageResponse> updateMyInfo(UserPrincipal principal, @Valid UserProfileUpdateRequest request);
 }

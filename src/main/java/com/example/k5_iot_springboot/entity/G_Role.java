@@ -5,11 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-/*
-    === 권한 코드 엔티티 (roles) ===
-    : PK(role_name) - Enum/문자열 매핑
- */
-
+/**
+ * === 권한 코드 엔티티 (roles) ===
+ * : PK(role_name) - Enum/문자열 매핑
+ * */
 @Entity
 @Table(name = "roles")
 @Getter

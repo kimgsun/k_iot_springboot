@@ -30,7 +30,7 @@ public class H_Article extends BaseTimeEntity {
     @Column(nullable = false)
     private String content;
 
-    /*  작성자 (작성자:게시글 = 1:N) */
+    /** 작성자 (작성자:게시글 = 1:N) */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     // fetch: 가져오다, LAZY: 게으른
     // - 연관된 엔티티를 필요할 때만! DB에서 로딩

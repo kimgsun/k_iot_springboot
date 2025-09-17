@@ -24,7 +24,7 @@ public class I_Stock extends BaseTimeEntity {
     @NotNull // 참조되는 값이 PK 값이기 때문에 비워질 수 X
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false,
-            foreignKey = @ForeignKey(name = "fk_stocks_product"))
+        foreignKey = @ForeignKey(name = "fk_stocks_product"))
     private I_Product product;
 
     @Min(0)
@@ -34,7 +34,7 @@ public class I_Stock extends BaseTimeEntity {
     @Builder
     private I_Stock(I_Product product) {
         this.product = product;
-        this.quantity = 0;      // 재고 생성 시 수량 초기화 (0)
+        this.quantity = 0;              // 재고 생성 시 - 수량 초기화 (0)
     }
 
     public void setQuantity(int quantity) {

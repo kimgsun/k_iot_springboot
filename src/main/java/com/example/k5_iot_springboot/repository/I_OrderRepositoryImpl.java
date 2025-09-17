@@ -22,11 +22,11 @@ public class I_OrderRepositoryImpl implements I_OrderRepositoryCustom{
             Long userId, OrderStatus status, LocalDateTime from, LocalDateTime to
     ) {
         StringBuilder jpql = new StringBuilder(
-                "SELECT DISTINCT o " +
-                "FROM I_Order o " +
-                    "LEFT JOIN FETCH o.items oi " +
-                    "LEFT JOIN FETCH oi.product p " +
-                "WHERE 1 = 1" // 항상 참이 되는 조건) 사실상 SELECT * FROM orders 와 동일한 결과
+            "SELECT DISTINCT o " +
+            "FROM I_Order o " +
+                "LEFT JOIN FETCH o.items oi " +
+                "LEFT JOIN FETCH oi.product p " +
+            "WHERE 1 = 1" // 항상 참이 되는 조건) 사실상 SELECT * FROM orders 와 동일한 결과
         );
 
         Map<String, Object> params = new HashMap<>();
@@ -55,7 +55,7 @@ public class I_OrderRepositoryImpl implements I_OrderRepositoryCustom{
 
         // 명시적 타입 사용: TypedQuery
         TypedQuery<I_Order> query = em.createQuery(jpql.toString(), I_Order.class);
-        // >> @Query에 쓰일 쿼리문
+        // >> @Query 쓰일 쿼리문
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
         }

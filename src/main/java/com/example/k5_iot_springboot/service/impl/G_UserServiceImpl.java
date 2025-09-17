@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -21,19 +20,19 @@ public class G_UserServiceImpl implements G_UserService {
     private final G_UserRepository userRepository;
 
     @Override
-    public ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal){
+    public ResponseDto<UserProfileResponse.MyPageResponse> getMyInfo(UserPrincipal principal) {
         PrincipalUtils.requiredActive(principal);
 
         G_User user = userRepository.findByLoginId(principal.getUsername())
                 .orElseThrow(() -> new EntityNotFoundException("해당 username의 사용자가 없습니다: " + principal.getUsername()));
 
         UserProfileResponse.MyPageResponse data = new UserProfileResponse.MyPageResponse(
-                user.getId(),
-                user.getLoginId(),
-                user.getEmail(),
-                user.getNickname(),
-                user.getGender()
-        );
+                        user.getId(),
+                        user.getLoginId(),
+                        user.getEmail(),
+                        user.getNickname(),
+                        user.getGender()
+                );
 
         return ResponseDto.setSuccess("SUCCESS", data);
     }

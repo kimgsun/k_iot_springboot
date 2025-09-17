@@ -24,13 +24,13 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class I_Order extends BaseTimeEntity {
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false) // Many(Order)ToOne(G_User)
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_orders_user"))
+    @JoinColumn(name = "user_id", nullable = false,
+        foreignKey = @ForeignKey(name = "fk_orders_user"))
     private G_User user;
 
     // 자바 Enum 타입은 DB에서 VARCHAR + CHECK 제약조건 사용
@@ -39,7 +39,6 @@ public class I_Order extends BaseTimeEntity {
     private OrderStatus orderStatus = OrderStatus.PENDING;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    // @OneToMany 는 생략 가능
     // I_Order (주문) 엔티티와 I_OrderItem (주문 상세) 엔티티 간 1:N 관계를 명시
     // - mappedBy: 주인 관계 지정 (양방향 매핑에서 연관관계의 주인을 I_OrderItem으로 지정 - FK 설정을 하는 엔티티 지정!)
     //              >> "order"는 I_OrderItem의 order 필드명을 가리킴!

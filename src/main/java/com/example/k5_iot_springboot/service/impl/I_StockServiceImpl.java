@@ -31,7 +31,7 @@ public class I_StockServiceImpl implements I_StockService {
         StockResponse.Response data = null; // 실제 ResponseDto 내부에서 전달될 data 타입을 초기화
 
         I_Stock stock = stockRepository.findByProductIdForUpdate(req.productId())
-                .orElseThrow(() -> new EntityNotFoundException("재고 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException("재고 정보를 찾을 수 없습니다. productId=" + req.productId()));
 
         int newQuantity = stock.getQuantity() + req.delta();
 

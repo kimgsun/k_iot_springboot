@@ -51,11 +51,8 @@ package com.example.k5_iot_springboot.이론;
         - 헤더 Authorization: Bearer <토큰> 또는 바디 JSON 변환
         - 이후 클라이언트 요청마다 해당 토큰을 Authorization 헤더로 전송
 
-    --------------------------------------------------------------------------------------------------------
+    ---------------
     +) 이후 요청 처리 (인가 단계)
         - JWT 필터가 헤더의 토큰 검증 >> 유효하면 UserPrincipal 재구성 >> SecurityContext에 주입
-
- */
-
-public class V_SecurityContext {
-}
+*/
+public class V_SecurityContext {}

@@ -60,7 +60,7 @@ public class G_AdminServiceImpl implements G_AdminService {
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 사용자가 없습니다."));
 
         G_Role role = roleRepository.findById(req.role())
-                        .orElseThrow(() -> new EntityNotFoundException("해당 권한을 찾을 수 없습니다"));
+                        .orElseThrow(() -> new EntityNotFoundException("해당 권한을 찾을 수 없습니다."));
 
         user.grantRole(role);
 
@@ -73,10 +73,10 @@ public class G_AdminServiceImpl implements G_AdminService {
                 Set.copyOf(user.getRoleTypes()),
                 user.getUpdatedAt()
         );
-
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 
+    // 권한 제거 (권한 회수 - 최소 1개 권한 보장: 모두 제거되면 USER 유지)
     @Override
     @Transactional
     public ResponseDto<RoleManageResponse.RemoveRoleResponse> removeRole(UserPrincipal principal, RoleManageRequest.@Valid RemoveRoleRequest req) {
@@ -88,15 +88,12 @@ public class G_AdminServiceImpl implements G_AdminService {
 
         user.revokeRole(role); // orphanRemoval=true -> 자동 제거
 
+        userRepository.flush();
+
         // 비워지는 경우 기본 USER 유지(최소 1개 이상의 권한을 가질 것을 보장하는 정책)
         if (user.getUserRoles().isEmpty()) {
             user.grantRole(roleRepository.getReferenceById(RoleType.USER));
         }
-//        if (user.getRoles().isEmpty()) {
-//            user.addRole(RoleType.USER);
-//        }
-
-        userRepository.flush();
 
         RoleManageResponse.RemoveRoleResponse data = new RoleManageResponse.RemoveRoleResponse(
                 user.getId(),
@@ -105,7 +102,6 @@ public class G_AdminServiceImpl implements G_AdminService {
                 Set.copyOf(user.getRoleTypes()),
                 user.getUpdatedAt()
         );
-
         return ResponseDto.setSuccess("SUCCESS", data);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.k5_iot_springboot.dto.I_Order.response;
 
 public class ProductResponse {
-    /** 제품 리스트 응답 DTO */
+    /** 제품 상세 응답 DTO */
     public record DetailResponse(
             Long id,
             String name,

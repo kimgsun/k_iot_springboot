@@ -6,8 +6,8 @@ import org.springframework.security.access.AccessDeniedException;
 public class PrincipalUtils {
     private PrincipalUtils() {}
 
-    // UserPrincipal 전용 검증
-    public static void requiredActive(UserPrincipal principal){
+    /** UserPrincipal 전용 검증 */
+    public static void requiredActive(UserPrincipal principal)  {
         if (principal == null) {
             throw new AccessDeniedException("인증 필요");
         }

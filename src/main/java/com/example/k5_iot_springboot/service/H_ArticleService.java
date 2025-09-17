@@ -16,5 +16,4 @@ public interface H_ArticleService {
     ResponseDto<ArticleDetailResponse> getArticleById(Long id);
     ResponseDto<ArticleDetailResponse> updateArticle(UserPrincipal principal, Long id, @Valid ArticleUpdateRequest request);
     ResponseDto<Void> deleteArticle(UserPrincipal principal, Long id);
-
 }

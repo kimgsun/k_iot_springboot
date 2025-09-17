@@ -32,16 +32,16 @@ package com.example.k5_iot_springboot.이론;
         : 인터넷의 HTTP 통신은 기억력이 없음!
         - 서버는 이전 요청에 대한 사용자 정보를 기억하지 않음 (매번 로그인 정보를 다시 제출해야 함)
     2. 세션(Session) VS 토큰(JWT)
-        1) 세션: 서버에 "누가 로그인했는지" 기록, 클라이언트는 세션ID 쿠키만 전달
+        1) 세션: 서버에 "누가 로그인했는지" 기록, 클라이언트는 세션 ID 쿠키만 전달
             - 서버가 로그인 상태 기억
         2) JWT: 서버는 토큰만 검증하고 별도의 저장소가 없어도 됨 (완전한 Stateless)
             - 서명된 토큰으로 인증
     3. 암호화 / 해싱
         - 비밀번호 암호화 (문자열 그대로 저장하면 보안성 저하)
             >> 해싱(Hashing): 긴 암호문으로 변환
-            >> 스프링 시큐리티는 주로 BCrypt 사용 (매번 다른 해시 결과로 만들어짐 - 안정성 향상)
+            >> 스프링 시큐리티는 주로 BCrypt 사용 (매번 다른 해시 결과로 만들어짐 - 안전성 향상)
 
-    4. Principal(주요한)
+    4. Principal (주요한)
         - "인증된" 사용자 정보 (아이디, 이메일 등)
     5. Authority(권한), ROLE(역할)
         - 역할에 따라 권한이 달라짐
@@ -51,7 +51,7 @@ package com.example.k5_iot_springboot.이론;
         - 현재의 사용자 기록
     7. Filter Chain
         - 요청을 차례로 검사하는 필터 묶음
-        EX) '교문' > '복도' > '문 앞' 검사
+        EX) '교문' > '복도' > '문앞' 검사
     8. UserDetailsService
         - 사용자 조회 서비스 (DB에서 사용자 찾기)
     9. PasswordEncoder
@@ -83,8 +83,10 @@ package com.example.k5_iot_springboot.이론;
 
     3) AuthenticationManager/Provider - 신분 확인 부서
         : 로그인 시도(/login)가 들어오면, 필터가 아이디/비번을 요청에서 꺼냄
-            >> AuthenticatinoManager에 전달 (UsernamePasswordAuthenticationToken - 인증용 객체)
-            >> 여러 AuthenticationProvider에게 일을 시킴 (Manager가 Provider 에게)
+            >> AuthenticationManager에 전달
+                (UsernamePasswordAuthenticationToken - 인증용 객체)
+            >> 여러 AuthenticationProvider에게 일을 시킴
+                (Manger가 Provider 에게)
                 - 해당 아이디/비밀번호 일치 확인
                 - DB 기반 로그인, 소셜 로그인, JWT 검증 등 다양한 Provider가 존재
 
@@ -113,7 +115,7 @@ package com.example.k5_iot_springboot.이론;
             , 권한이 부족하면
         - AuthenticationEntryPoint (로그인 필요): 401 Unauthorized
         - AccessDeniedHandler (권한 없음): 403 Forbidden
- */
+*/
 
 public class T_Security {
 }

@@ -9,6 +9,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,6 +46,7 @@ public class F_BoardController {
     }
 
     // 2-1) 게시글 조회 (페이지네이션 OffSet 조회)
+    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     @GetMapping
     public ResponseEntity<ResponseDto<BoardResponseDto.PageResponse>> getBoardsPage(
             // page: 0부터 시작, 필요 시 1부터 시작하는 정책도 가능
@@ -51,8 +55,15 @@ public class F_BoardController {
             @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size,
             // sort: 여러 개 허용 - EX) sort=createAt,desc&sort=title,asc
             @RequestParam(required = false) String[] sort
+//            @PageableDefault(
+//                    page = 0,           // 기본 페이지 번호
+//                    size = 10,          // 기본 페이지 크기
+//                    sort = "createdAt", // 기본 정렬 컬럼
+//                    direction = Sort.Direction.DESC // 기본 정렬 방향
+//            ) Pageable pageable
     ) {
         ResponseDto<BoardResponseDto.PageResponse> response = boardService.getBoardsPage(page, size, sort);
+//        ResponseDto<BoardResponseDto.PageResponse> response = boardService.getBoardsPage(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -84,5 +95,4 @@ public class F_BoardController {
     // 4) 게시글 삭제
 //    @PreAuthorize("hasRole('ADMIN')")
 //    @DeleteMapping(ApiMappingPattern.Boards.ID_ONLY)
-
 }

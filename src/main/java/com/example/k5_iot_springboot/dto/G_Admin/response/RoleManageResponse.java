@@ -16,16 +16,16 @@ public final class RoleManageResponse {
     public record AddRoleResponse(
             Long userId,
             String loginId,
-            RoleType added, // 추가된 권한
-            Set<RoleType> roles, // 변경 후 최종 권한 목록
+            RoleType added,         // 추가된 권한
+            Set<RoleType> roles,    // 변경 후 최종 권한 목록
             LocalDateTime updatedAt
     ) {}
 
     public record RemoveRoleResponse(
             Long userId,
             String loginId,
-            RoleType removed, // 제거된 권한
-            Set<RoleType> roles, // 변경 후 최종 권한 목록
+            RoleType removed,        // 제거된 권한
+            Set<RoleType> roles,     // 변경 후 최종 권한 목록
             LocalDateTime updatedAt
     ) {}
 }

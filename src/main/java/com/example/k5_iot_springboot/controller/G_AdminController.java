@@ -14,7 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-/* 관리자 전용 사용자 관리 컨트롤러 */
+/** 관리자 전용 사용자 관리 컨트롤러 */
 @RestController
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
@@ -31,19 +31,18 @@ public class G_AdminController {
     // - 추가) 기존 권한 유지 (기존 + 요청 권한) - 권한을 확장/보강
 
     // 권한 갱신
-    @PutMapping("roles/replace")
+    @PutMapping("/roles/replace")
     // 자원의 상태를 통째로 교체 (덮어쓰기 - 동일한 요청을 여러 번 보내도 결과가 같음)
-    // : 역등성
+    // : 멱등성
     public ResponseEntity<ResponseDto<RoleManageResponse.UpdateRolesResponse>> replaceRoles(
             @AuthenticationPrincipal UserPrincipal principal, // 관리자 토큰 정보 가져오기
-            @Valid @RequestBody RoleManageRequest.UpdateRolesRequest req
-    ) {
+            @Valid @RequestBody RoleManageRequest.UpdateRolesRequest req) {
         ResponseDto<RoleManageResponse.UpdateRolesResponse> response = adminService.replaceRoles(principal, req);
         return ResponseEntity.ok().body(response);
     }
 
     // 권한 추가
-    @PostMapping("roles/add")
+    @PostMapping("/roles/add")
     // 새로운 자원을 추가 생성하거나, 기존 자원에 무언가를 덧붙임
     // : 요청을 여러 번 보내면 결과가 달라질 수 있음
     public ResponseEntity<ResponseDto<RoleManageResponse.AddRoleResponse>> addRole(

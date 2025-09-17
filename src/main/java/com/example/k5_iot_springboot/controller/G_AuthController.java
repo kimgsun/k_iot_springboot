@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class G_AuthController {
     private final G_AuthService authService;
 
-    /* 회원가입 */
+    /** 회원가입 */
     @PostMapping("/sign-up")
     public ResponseEntity<ResponseDto<Void>> signUp(@Valid @RequestBody SignUpRequest req) {
         authService.signUp(req);
         return ResponseEntity.ok(ResponseDto.setSuccess("회원가입이 완료되었습니다.", null));
     }
 
-    /* 로그인 */
+    /** 로그인 */
     @PostMapping("/sign-in")
     public ResponseEntity<ResponseDto<SignInResponse>> signIn(@Valid @RequestBody SignInRequest req) {
         ResponseDto<SignInResponse> response = authService.signIn(req);

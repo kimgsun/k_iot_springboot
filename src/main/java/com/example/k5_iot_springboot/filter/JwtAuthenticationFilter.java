@@ -18,7 +18,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -26,20 +25,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /*
-    === JwtAuthenticationFilter ===
-    : JWT 인증 필터
-    - 요청에서 JWT 토큰을 추출
-        >> request의 header에서 토큰을 추출하여 검증 (유효한 경우 SecurityContext에 인증 정보 저장)
-
-    cf) Spring Security가 OncePerRequestFilter를 상속받아 매 요청마다 1회 실행
- */
-
+* === JwtAuthenticationFilter ===
+* : JWT 인증 필터
+* - 요청에서 JWT 토큰을 추출
+*   >> request의 header에서 토큰을 추출하여 검증 (유효한 경우 SecurityContext에 인증 정보 저장)
+*
+* cf) Spring Security가 OncePerRequestFilter를 상속받아 매 요청마다 1회 실행
+* */
 @Component // 스프링이 해당 클래스를 관리하도록 지정, 의존성 주입
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -49,17 +46,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = JwtProvider.BEARER_PREFIX;
 
     private final JwtProvider jwtProvider; // 의존성 주입
-    private final G_UserRepository g_userRepository;
+    private final G_UserRepository g_UserRepository;
     private final UserPrincipalMapper principalMapper;
 
-    /*
-        OncePerRequestFilter 내부 추상 메서드 - 반드시 구현!
-        >> 스프링 시큐리티 필터가 매 요청마다 호출하는 핵심 메서드
-
-        @param request       현재 HTTP 요청 객체
-        @param response      현재 HTTP 요청 응답
-        @param filterChain   다음 필터로 넘기기 위한 체인
-     */
+    /**
+     * OncePerRequestFilter 내부 추상 메서드 - 반드시 구현
+     * >> 스프링 시큐리티 필터가 매 요청마다 호출하는 핵심 메서드
+     *
+     * @param request       현재 HTTP 요청 객체
+     * @param response      현재 HTTP 요청 응답
+     * @param filterChain   다음 필터로 넘기기 위한 체인
+     * */
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -114,7 +111,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String username = jwtProvider.getUsernameFromJwt(token);
 
             // +) DB 재조회 - UserPrincipal 구성 (최신 권한/상태 반영)
-            G_User user = g_userRepository.findByLoginId(username)
+            G_User user = g_UserRepository.findByLoginId(username)
                     .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
             // Set<String> roles = jwtProvider.getRolesFromJwt(token);
@@ -129,7 +126,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             // 9) SecurityContext에 인증 저장
             // : 인증 객체를 만들고 SecurityContext에 저장
-            // >> 해당 시점부터 현재 요청은 "username이라는 사용자가 authorities 권한으로 인증된" 상태가 됨
+            // >> 해당 시점부터 현재 요청은 "username이라는 사용자가 authorities 권한으로 인증됨" 상태가 됨
             setAuthenticationContext(request, principal);
 
         } catch (Exception e) {
@@ -137,12 +134,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             unauthorized(response, "인증 처리 중 오류가 발생하였습니다.");
             return;
         }
-
         // 10) 다음 필터로 진행
         filterChain.doFilter(request, response);
     }
 
-    /* SecurityContextHolder에 인증 객체 세팅 */
+    /**
+     * SecurityContextHolder에 인증 객체 세팅
+     * */
     private void setAuthenticationContext(
             HttpServletRequest request,
             UserPrincipal principal
@@ -150,17 +148,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 0) 사용자 아이디 (또는 고유 데이터)를 바탕으로 인증 토큰 생성
         // UsernamePasswordAuthenticationToken 클래스는 스프링 시큐리티에서 자주 쓰이는
         //      , "인증 토큰 구현체"
-        // - 첫 번째 인자 Principal (추후 해당 요청에서 파라미터 값으로 해당값을 자동 추출)
-        // - 두 번째 인자 Credentials (이미 토큰 검증을 마쳤으므로 null 전달, 중복 검증 필요 X)
-        // - 세 번째 인자 권한 목록
-        // >> "username이라는 사용자가 authorities 권한으로 인증된" 상태가 됨
+        //  - 첫 번째 인자 Principal (추후 해당 요청에서 파라미터 값으로 해당 값을 자동 추출)
+        //  - 두 번째 인자 Credentials (이미 토큰 검증을 마쳤으므로 null 전달, 중복 검증 필요 X)
+        //  - 세 번째 인자 권한 목록
+        //  >> "username이라는 사용자가 authorities 권한으로 인증됨" 상태가 됨
 
         // cf) 권한이 있는 경우(비워지지 않은 경우) - isAuthenticated=true
         AbstractAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
 
         // 요청에 대한 세부 정보 설정
-        // : 생성된 인증 토큰에 요청의 세부사항 설정 (예: 원격 IP, 세션 ID 등)
+        // : 생성된 인증 토큰에 요청의 세부사항 설정 (예: 원격 IP, 세선 ID 등)
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
         // 빈 SecurityContext 객체 생성 - 인증 토큰 주입
@@ -173,30 +171,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.setContext(context);
     }
 
-    /* USER/ADMIN -> "ROLE_USER"/"ROLE_ADMIN"으로 매핑 */
+    /** USER/ADMIN -> "ROLE_USER"/"ROLE_ADMIN" 으로 매핑 */
     private List<GrantedAuthority> toAuthorities(Set<String> roles) {
         if (roles == null || roles.isEmpty()) return List.of(); // 권한이 없으면 빈 배열 반환
         return roles.stream()
                 .map(role -> role.startsWith("ROLE_") ? role : "ROLE_" + role)
                 .map(SimpleGrantedAuthority::new)
-                // : 시큐리티가 이해할 수 있는 타입으로 변환
+                // : 시큐리티가 이해할 수 잇는 타입으로 변환
                 .collect(Collectors.toList());
 
         // cf) "ROLE_" 첨부 이유
         // 스프링 시큐리티의 기본 hasRole("권한")은 내부적으로 ROLE_가 첨부된 권한 문자열을 찾음
         // - 접두사를 강제해두면 애플리케이션 전반에서 일관성 유지 가능
 
-        // +) hasAuthority()는 명시된 문자열 그대로 권한을 확인
+        // +) hasAuthority("권한")는 명시된 문자열 그대로 권한을 확인
     }
 
-    /* 401 응답 헬퍼(JSON) */
+    /** 401 응답 헬퍼(JSON) */
     private void unauthorized(HttpServletResponse response, String message) throws IOException {
         // HTTP 상태코드, 문자 인코딩 설정, 응답 본문 형식, JSON 문자열의 응답 본문을 정의 & 기록
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write("""
-                    {"result": "fail","message":"%s"}
+                {"result": "fail","message":"%s"}
                 """.formatted(message));
     }
 }

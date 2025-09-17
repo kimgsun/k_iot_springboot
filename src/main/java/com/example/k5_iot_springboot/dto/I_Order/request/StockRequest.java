@@ -4,7 +4,7 @@ public class StockRequest {
     /** 재고 증가/감소 요청 DTO */
     public record StockAdjust (
             Long productId,
-            int delta           // delta: 변화량
+            int delta           // 델타 - 변화량
     ) {}
 
     /** 재고 직접 설정 요청 DTO */

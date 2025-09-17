@@ -12,9 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-/*
-    재고 증감/설정/조회
- */
+/**
+ * 재고 증감/설정/조회
+ * */
 @RestController
 @RequestMapping(ApiMappingPattern.Stocks.ROOT)
 @RequiredArgsConstructor

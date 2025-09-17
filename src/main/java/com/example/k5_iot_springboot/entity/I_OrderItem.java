@@ -16,14 +16,14 @@ import lombok.NoArgsConstructor;
                 @Index(name = "idx_order_items_order", columnList = "order_id"),
                 @Index(name = "idx_order_items_product", columnList = "product_id")
         },
-        uniqueConstraints = { @UniqueConstraint(name = "uq_order_product", columnNames = {"order_id", "product_id"}) }
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uq_order_product", columnNames = {"order_id", "product_id"})
+        }
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class I_OrderItem extends BaseTimeEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
